@@ -1,0 +1,35 @@
+#====================#
+#>>>>>>>BASICS<<<<<<<#
+#====================#
+
+AddDefaultCharset utf-8
+Options All -Indexes
+Options +FollowSymLinks
+DirectoryIndex init.php
+
+# Denies public access to certain files by their extension
+<FilesMatch "\.(htaccess|htpasswd|ini|phps|log|bak|env|sql|json|txt|xml)$">
+  Order Allow,Deny
+  Deny from all
+</FilesMatch>
+
+
+#====================#
+#>>>>>REQ-CONFIG<<<<<#
+#====================#
+
+# Sets ROOT path by condition of other paths
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteCond %{REQUEST_URI} ^(.*)
+  RewriteRule ^(?!src/public/|ajax/|styles/|scripts/|resources/)(.*)$ init.php
+</IfModule>
+
+# Allows to generate dynamic ALIAS synchronized with a routes
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+  RewriteRule ^ajax/(.*) /src/public/ajax/$1 [L]
+  RewriteRule ^styles/(.*) /src/public/styles/$1 [L]
+  RewriteRule ^scripts/(.*) /src/public/scripts/$1 [L]
+  RewriteRule ^resources/(.*) /src/public/resources/$1 [L]
+</IfModule>

@@ -1,0 +1,1 @@
+//document.getElementById("modal-viewer").removeAttribute("center-content");

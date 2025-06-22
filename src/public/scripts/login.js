@@ -15,7 +15,7 @@ function showGoogleLogin(buttonNode) {
       </b>
     `;
     parentNode.innerHTML+= `
-      <button type="button" onclick="window.location.href='${googleAuthUrl}'">
+      <button class="default" type="button" onclick="window.location.href='${googleAuthUrl}'">
         <img style="width:30px;height:30px" src="/resources/icon-google.webp">
         <span>&nbsp;</span>
         Iniciar sesión

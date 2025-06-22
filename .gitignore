@@ -5,3 +5,5 @@ vendor/*
 !vendor/.gitkeep
 
 .env
+
+error.log

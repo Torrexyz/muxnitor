@@ -1,27 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Prosto+One&display=swap');
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  align-items: center;
   background-image: url(/resources/doodles-bg.jpg);
   background-repeat: repeat;
   background-size: contain;
-  background-position: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-  overflow-y: scroll;
 }
-
-/*<><><><><><><><><><>*/
 
 .container {
   background: rgba(30, 116, 187, 0.4);
@@ -84,7 +65,7 @@ form {
 
 /*..........*/
 
-.type-selector {
+.type-selection {
   align-items: center;
   border-top: 2px solid #F2F2F2;
   display: flex;
@@ -98,20 +79,9 @@ form {
   position: relative;
 }
 
-.type-selector > b {
+.type-selection > b {
   font: bold 14px "Prosto One";
   display: block;
   position: absolute;
   top: 15px;
-}
-
-.type-selector > button {
-  align-items: center;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  font: bold 16px Comfortaa;
-  margin: 5px 0;
-  padding: 5px 10px;
-  outline: none;
 }

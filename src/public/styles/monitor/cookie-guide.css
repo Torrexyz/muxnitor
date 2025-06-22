@@ -1,0 +1,11 @@
+.default.next-button {
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+}
+
+/*..........*/
+
+.guide-box {
+  border: 1px solid coral;
+}

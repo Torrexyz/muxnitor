@@ -8,13 +8,14 @@ ini_set('error_log', "{$_SERVER['DOCUMENT_ROOT']}/error.log");
 ini_set('display_errors', !PRODUCTION_MODE ? 'On' : 'Off');
 ini_set('display_startup_errors', !PRODUCTION_MODE ? 'On' : 'Off');
 
+ini_set('session.name', 'MUXSESSID');
 ini_set('date.timezone', 'America/Bogota');
 
 session_set_cookie_params([
   'path'     => '/',
   'secure'   => PRODUCTION_MODE,
   'httponly' => true,
-  'samesite' => 'Strict'
+  'samesite' => 'Lax'
 ]);
 
 ?>

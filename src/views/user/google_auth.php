@@ -20,52 +20,57 @@ if(isset($_GET['code'])) {
     $googleClient->setAccessToken($google_token['access_token']);
     $googleOAuth = new Google\Service\Oauth2($googleClient);
     $googleUserInfo = $googleOAuth->userinfo->get();
-    $data_folder = str_replace(['@utp.edu.co', '.'], ['', '_'], $googleUserInfo->email);
+    
+    $USER_ID      = explode('@', $googleUserInfo->email)[0];
+    $USER__folder = str_replace(['@utp.edu.co', '.'], ['', '_'], $googleUserInfo->email);
+    $USER__name   = $googleUserInfo->name;
+    $USER__prefix = 'FI';
 
     if($googleUserInfo->hd === 'utp.edu.co') {
-      if(dbcursor("SELECT * FROM monitor WHERE `email` = '{$googleUserInfo->email}'")->rowCount() > 0) {
+      if(dbcursor("SELECT * FROM user WHERE `id` = '{$USER_ID}'")->rowCount() > 0) {
 
         $LOGIN_ACCOUNT_STATE = 1;
         session_start();
-        $_SESSION['sessref'] = $googleUserInfo->email;
+        $_SESSION['sessref'] = $USER_ID;
+        
+        # Last session updating
+        @dbcursor("UPDATE user SET `lastsess` = NOW() WHERE `id` = '{$USER_ID}'");
 
       } else {
-        if(dbcursor("INSERT INTO monitor(`folder`,`email`,`name`) VALUES (?,?,?)", array_values([
-          'folder'  => $data_folder,
-          'email'   => $googleUserInfo->email,
-          'name'    => $googleUserInfo->name
+        if(dbcursor("INSERT INTO user(`id`,`folder`,`name`,`prefix`) VALUES (?,?,?,?)", array_values([
+          'id'     => $USER_ID,
+          'folder' => $USER__folder,
+          'name'   => $USER__name,
+          'prefix' => $USER__prefix
         ]))) {
 
           $LOGIN_ACCOUNT_STATE = 2;
           session_start();
-          $_SESSION['sessref'] = $googleUserInfo->email;
+          $_SESSION['sessref'] = $USER_ID;
 
         } else $LOGIN_ACCOUNT_STATE = 3;
       }
 
-      $data_folder = __DATA_ROOT__."/{$data_folder}";
+      $USER__pathFolder = __DATA_ROOT__."/{$USER__folder}";
       
       # Data folder creation
-      if(!file_exists($data_folder))
-        mkdir($data_folder);
+      if(!file_exists($USER__pathFolder))
+        mkdir($USER__pathFolder);
 
       # Profile image saving
-      if(!file_exists("{$data_folder}/profile-image.png")) {
+      if(!file_exists("{$USER__pathFolder}/profile-image.png")) {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $googleUserInfo->picture);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
-        $google_picture_data = curl_exec($ch);
+        $googlePictureData = curl_exec($ch);
         curl_close($ch);
 
-        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200 && $google_picture_data) {
-          file_put_contents("{$data_folder}/profile-image.png", $google_picture_data);
+        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200 && $googlePictureData) {
+          file_put_contents("{$USER__pathFolder}/profile-image.png", $googlePictureData);
         }
       }
-
-      # Last session updating
-      # ...
       
     } else $LOGIN_ACCOUNT_STATE = 3;
 
@@ -77,43 +82,8 @@ if(isset($_GET['code'])) {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/notices.css">
     <title>Autentificación de Google</title>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
-      @import url('https://fonts.googleapis.com/css2?family=Prosto+One&display=swap');
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;;
-      }
-
-      body {
-        align-items: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 100vh;
-        width: 100%;
-      }
-
-      h1 {
-        display: block;
-        font-family: 'Prosto One';
-        text-align: center;
-      }
-
-      button {
-        align-items: center;
-        border-radius: 5px;
-        cursor: pointer;
-        display: flex;
-        font: bold 16px Comfortaa;
-        margin: 5px 0;
-        padding: 5px 10px;
-        outline: none;
-      }
-    </style>
   </head>
   <body>
     <?php
@@ -124,7 +94,7 @@ if(isset($_GET['code'])) {
             <h1 style="color:#1abc9c">Sesión iniciada</h1>
             <br>
             <button>Redireccionando..</button>
-            <script>setTimeout(() => window.location.href = "/monitor/dashboard", 2*1000);</script>
+            <script>setTimeout(() => window.location.href = "/user/dashboard", 2*1000);</script>
           HTML;
 
         } elseif($LOGIN_ACCOUNT_STATE === 2) {
@@ -133,7 +103,7 @@ if(isset($_GET['code'])) {
             <h1 style="color:#1abc9c">Cuenta creada</h1>
             <br>
             <button>Redireccionando..</button>
-            <script>setTimeout(() => window.location.href = "/monitor/dashboard", 2*1000);</script>
+            <script>setTimeout(() => window.location.href = "/user/dashboard", 2*1000);</script>
           HTML;
 
         } elseif($LOGIN_ACCOUNT_STATE === 3) {

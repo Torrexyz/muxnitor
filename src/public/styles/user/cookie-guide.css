@@ -1,0 +1,48 @@
+.default.next-button {
+  display: flex;
+  width: fit-content;
+  flex-direction: row;
+}
+
+/*..........*/
+
+.swiper {
+  box-shadow: 0 0 5px gray;
+  border-radius: 15px;
+  height: calc(100% - 100px);
+  max-width: calc(var(--MAX_WINDOW_WIDTH)*0.5);
+  width: 100%;
+}
+
+.swiper-slide > img {
+  display: block;
+  object-fit: cover;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.swiper-slide > p {
+  background: #103029;
+  border-radius: 15px;
+  color: white;
+  font: bold 14px comfortaa;
+  display: block;
+  padding: 5px 15px;
+  max-width: 90%;
+  position: absolute;
+  left: 15px;
+  bottom: 35px;
+  z-index: 2;
+}
+
+.swiper-slide p > span {
+  background: #c17a09;
+  padding: 0 5px;
+}
+
+.swiper-slide > p > u {
+  cursor: pointer;
+}

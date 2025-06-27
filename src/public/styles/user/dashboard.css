@@ -1,5 +1,5 @@
 body {
-  background-image: url(/resources/monitor-bg.png);
+  background-image: url(/resources/user-bg.png);
 }
 
 .container {
@@ -10,7 +10,7 @@ body {
   display: table;
   margin: auto;
   height: 100vh;
-  max-width: 1024px;
+  max-width: var(--MAX_WINDOW_WIDTH);
   width: 100%;
   overflow-y: auto;
   position: relative;
@@ -146,21 +146,6 @@ main > p {
 }
 
 /*..........*/
-
-.device-selection {
-  border-radius: 10px;
-  display: flex;
-  margin-top: 20px;
-  position: relative;
-}
-
-.device-selection > i {
-  font: bold 13px Comfortaa;
-  text-align: center;
-  position: absolute;
-  bottom: -30px;
-  width: 100%;
-}
 
 button.default {
   flex-direction: column;

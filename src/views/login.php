@@ -15,7 +15,7 @@ if(!isset($_SESSION['sessref'])) {
 
   $googleAuthUrl = $googleClient->createAuthUrl();
 
-} else header('Location: /monitor/dashboard');
+} else header('Location: /user/dashboard');
 ?>
 <!DOCTYPE html>
 <html lang="en-CO">

@@ -5,12 +5,16 @@ String.prototype.strToElement = function() {
   ;
 };
 
-async function requestModal(url, config = {
-  forceCancel: false,
-  transitionState: true,
-  success: ()=>{},
-  error: ()=>{}
-}) {
+async function requestModal(url, config = {}) {
+
+  if(typeof config.forceCancel === "undefined")
+    config.forceCancel = false;
+  if(typeof config.transitionState === "undefined")
+    config.transitionState = true;
+  if(typeof config.success === "undefined")
+    config.success = ()=>{};
+  if(typeof config.error === "undefined")
+    config.error = ()=>{};
 
   const curtainNode = document.querySelector("curtain");
   curtainNode.style.display = "flex";
@@ -28,50 +32,57 @@ async function requestModal(url, config = {
       
       const modalContainerNode = document.getElementById("modal-viewer");
       const requestUrlScript = await fetch(`/scripts${url.split("?")[0]}.js`);
-      let urlScriptNode;
+      let loadScriptNodes = [];
 
       if(requestUrlScript.status == 200) {
-        urlScriptNode = document.createElement("script");
+        let urlScriptNode = document.createElement("script");
         urlScriptNode.innerHTML = await requestUrlScript.text();
+        loadScriptNodes.push(urlScriptNode);
       }
+
+      `<content>${RES.innerHTML}</content>`.strToElement().querySelectorAll("script").forEach(scriptNode => {
+        let innerScriptNode = document.createElement("script");
+        innerScriptNode.innerHTML = scriptNode.innerHTML;
+        loadScriptNodes.push(innerScriptNode);  
+      });
 
       if(config.transitionState) {
         modalContainerNode.style.transform = "scale(0)";
-
         setTimeout(() => {
 
           modalContainerNode.innerHTML = RES.innerHTML;
           modalContainerNode.style.transform = "scale(1)";
           curtainNode.style.display = "none";
 
-          if(typeof config.success === "function")
-            config.success();
-
-          if(typeof urlScriptNode !== "undefined")
-            modalContainerNode.append(urlScriptNode);
+          let modalDispatchNode = document.createElement("script");
+          modalDispatchNode.innerHTML = "document.dispatchEvent(new Event('ModalDOMContentLoaded'))";
+          modalContainerNode.append(modalDispatchNode);
 
         }, 300);
-
       } else {
 
         modalContainerNode.innerHTML = RES.innerHTML;
         curtainNode.style.display = "none";
 
-        if(typeof config.success === "function")
-          config.success();
-
-        if(typeof urlScriptNode !== "undefined")
-          modalContainerNode.append(urlScriptNode);
+        let modalDispatchNode = document.createElement("script");
+        modalDispatchNode.innerHTML = "document.dispatchEvent(new Event('ModalDOMContentLoaded'))";
+        modalContainerNode.append(modalDispatchNode);
 
       }
 
+      document.addEventListener("ModalDOMContentLoaded", function handler(evnt) {
+        config.success();
+        if(loadScriptNodes.length > 0)
+          loadScriptNodes.forEach(scriptNode => modalContainerNode.append(scriptNode));
+        evnt.currentTarget.removeEventListener(evnt.type, handler);
+      });
+
       return;
 
-    } else if(typeof config.success === "function") config.success();
+    } else config.success();
   }
 
-  if(typeof config.error === "function")
-    config.error();
+  config.error();
   
   if(!config.forceCancel) {
 
@@ -97,4 +108,13 @@ async function requestModal(url, config = {
     
   }
 
+}
+
+function setClipboard(texto) {
+  const textarea = document.createElement('textarea');
+  textarea.value = texto;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy')
+  document.body.removeChild(textarea);
 }

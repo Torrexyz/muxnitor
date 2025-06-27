@@ -2,8 +2,6 @@
 
 require('session.php');
 
-$GET__modal = $_GET['modal'] ?? null;
-
 ?>
 <!DOCTYPE html>
 <html lang="es-CO">
@@ -11,9 +9,11 @@ $GET__modal = $_GET['modal'] ?? null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/monitor/dashboard.css">
-    <link rel="shortcut icon" href="/resources/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/styles/user/dashboard.css">
+    <link rel="stylesheet" href="/styles/swiper-bundle.min.css">
     <script src="/scripts/utils.js"></script>
+    <script src="/scripts/swiper-bundle.min.js"></script>
+    <link rel="shortcut icon" href="/resources/favicon.png" type="image/x-icon">
     <title>Bienvenid@ <?= $DB_DATA->name ?></title>
   </head>
   <body>
@@ -33,7 +33,7 @@ $GET__modal = $_GET['modal'] ?? null;
       </header>
 
       <nav>
-        <button type="button" onclick="requestModal('/monitor/logout', { forceCancel: true, success: () => window.location.href='<?= ROUTER__defaultRoute ?>' })">
+        <button type="button" onclick="requestModal('/logout', { forceCancel: true, success: () => window.location.href='<?= ROUTER__defaultRoute ?>' })">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M200-120q-33 0-56.5-23.5T120-200v-160h80v160h560v-560H200v160h-80v-160q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm220-160-56-58 102-102H120v-80h346L364-622l56-58 200 200-200 200Z"/></svg>
           <span>&nbsp;</span>
           <u>Cerrar Sesión</u>
@@ -47,7 +47,7 @@ $GET__modal = $_GET['modal'] ?? null;
 
       <main id="modal-viewer" center-content>
         
-        <?php if(true) { ?>
+        <?php if(!isset($DB_DATA->history)) { ?>
           <h1>Carga de criterios académicos</h1>
           <br>
           <p>
@@ -56,20 +56,23 @@ $GET__modal = $_GET['modal'] ?? null;
             <br><br>
             Por consiguiente se le solicita acceso para la obtención de los datos requeridos.
           </p>
+          <br><br>
+          <button type="button" class="default" onclick="requestModal('/user/cookie-guide')">
+            Realizar
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M441-82q-76-8-141.5-41.5t-114.5-87Q136-264 108-333T80-480q0-157 104.5-270T441-878v81q-119 15-200 104.5T160-480q0 123 81 212.5T441-163v81Zm0-198v-247L337-423l-56-57 200-200 200 200-57 56-103-103v247h-80Zm80 198v-81q44-5 83.5-22t72.5-43l57 58q-45 36-99 59T521-82Zm155-650q-33-26-72-43t-83-22v-81q60 6 114 29t99 59l-58 58Zm114 505-57-57q26-33 43-72.5t22-83.5h81q-6 60-29.5 114T790-227Zm8-293q-5-44-22-83.5T733-676l57-57q36 45 59.5 99T879-520h-81Z"/></svg>
+          </button>
+        <?php } else { ?>
+
+          <h1 style="color:#1abc9c">Postulación exitosa</h1>
           <br>
-          <div class="device-selection">
-            <i>En que dispositivo te encuentras?</i>
-            <button type="button" class="default" onclick="requestModal('/monitor/cookie-guide?device=phone')">
-              Celular
-              <br>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M280-40q-33 0-56.5-23.5T200-120v-720q0-33 23.5-56.5T280-920h400q33 0 56.5 23.5T760-840v124q18 7 29 22t11 34v80q0 19-11 34t-29 22v404q0 33-23.5 56.5T680-40H280Zm0-80h400v-720H280v720Zm0 0v-720 720Zm200-40q17 0 28.5-11.5T520-200q0-17-11.5-28.5T480-240q-17 0-28.5 11.5T440-200q0 17 11.5 28.5T480-160Z"/></svg>
-            </button>
-            <button type="button" class="default" onclick="requestModal('/monitor/cookie-guide?device=pc')">
-              PC
-              <br>
-              <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="black"><path d="M40-120v-80h880v80H40Zm120-120q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240H160Zm0-80h640v-440H160v440Zm0 0v-440 440Z"/></svg>
-            </button>
-          </div>
+          <p>
+            ¡Todo listo!, ahora solo debes esperar a que seas asignado a alguna monitoria,
+            <br>
+            recuerda que este proceso es respecto a los criterios de prioridad y evaluación de monitores.
+            <br><br>
+            <i>(Para más información consulta la dirección del programa académico)</i>
+          </p>
+
         <?php } ?>
 
       </main>

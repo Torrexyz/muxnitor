@@ -4,9 +4,11 @@ USE muxnitor_utp;
 
 /*<><><><><><><><><><>*/
 
-CREATE TABLE `monitor`(
-  `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  `folder` VARCHAR(40) UNIQUE NOT NULL,
-  `email` VARCHAR(50) UNIQUE NOT NULL,
-  `name` VARCHAR(35) NOT NULL
+CREATE TABLE `user`(
+  `table` INT UNIQUE AUTO_INCREMENT NOT NULL,
+  `id` VARCHAR(50) PRIMARY KEY NOT NULL,
+  `folder` VARCHAR(50) UNIQUE NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `prefix` ENUM('FI') NOT NULL,
+  `lastsess` DATETIME NOT NULL DEFAULT NOW()
 );

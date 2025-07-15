@@ -37,12 +37,10 @@
   bottom: 35px;
   z-index: 2;
 }
-
 .swiper-slide p > span {
   background: #c17a09;
   padding: 0 5px;
 }
-
 .swiper-slide > p > u {
   cursor: pointer;
 }

@@ -13,6 +13,7 @@ $LOGIN_ACCOUNT_STATE = false;
 ?>
 <?php
 if(isset($_GET['code'])) {
+
   $google_token = $googleClient->fetchAccessTokenWithAuthCode($_GET['code']);
 
   if(isset($google_token['access_token']) && $DOCUMENT_STATE_ERROR === false) {
@@ -33,7 +34,7 @@ if(isset($_GET['code'])) {
         session_start();
         $_SESSION['sessref'] = $USER_ID;
         
-        # Last session updating
+        # last session updating
         @dbcursor("UPDATE user SET `lastsess` = NOW() WHERE `id` = '{$USER_ID}'");
 
       } else {
@@ -53,12 +54,13 @@ if(isset($_GET['code'])) {
 
       $USER__pathFolder = __DATA_ROOT__."/{$USER__folder}";
       
-      # Data folder creation
+      # data folder creation
       if(!file_exists($USER__pathFolder))
         mkdir($USER__pathFolder);
 
-      # Profile image saving
+      # profile image saving
       if(!file_exists("{$USER__pathFolder}/profile-image.png")) {
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $googleUserInfo->picture);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -67,9 +69,9 @@ if(isset($_GET['code'])) {
         $googlePictureData = curl_exec($ch);
         curl_close($ch);
 
-        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200 && $googlePictureData) {
+        if(curl_getinfo($ch, CURLINFO_HTTP_CODE) == 200 && $googlePictureData)
           file_put_contents("{$USER__pathFolder}/profile-image.png", $googlePictureData);
-        }
+        
       }
       
     } else $LOGIN_ACCOUNT_STATE = 3;
@@ -82,7 +84,7 @@ if(isset($_GET['code'])) {
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/notices.css">
+    <link rel="stylesheet" href="/styles/concat/notices.css">
     <title>Autentificación de Google</title>
   </head>
   <body>
@@ -93,7 +95,7 @@ if(isset($_GET['code'])) {
           echo <<<HTML
             <h1 style="color:#1abc9c">Sesión iniciada</h1>
             <br>
-            <button>Redireccionando..</button>
+            <button type="button" onclick="window.location.href = '/user/dashboard'">Redireccionando..</button>
             <script>setTimeout(() => window.location.href = "/user/dashboard", 2*1000);</script>
           HTML;
 
@@ -102,7 +104,7 @@ if(isset($_GET['code'])) {
           echo <<<HTML
             <h1 style="color:#1abc9c">Cuenta creada</h1>
             <br>
-            <button>Redireccionando..</button>
+            <button type="button" onclick="window.location.href = '/user/dashboard'">Redireccionando..</button>
             <script>setTimeout(() => window.location.href = "/user/dashboard", 2*1000);</script>
           HTML;
 

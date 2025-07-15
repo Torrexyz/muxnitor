@@ -1,5 +1,5 @@
 SET GLOBAL time_zone = '-05:00';
-CREATE DATABASE muxnitor_utp;
+CREATE DATABASE muxnitor;
 USE muxnitor_utp;
 
 /*<><><><><><><><><><>*/

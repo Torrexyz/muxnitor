@@ -1,0 +1,55 @@
+.schedule {
+  border: 3px solid rgb(211, 211, 211);
+  border-radius: 10px;
+  font: bold 12px 'Prosto One';
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  width: fit-content;
+  overflow: hidden;
+  position: absolute;
+}
+
+/*..........*/
+
+.schedule ul {
+  list-style: none;
+  width: 60px;
+}
+
+.schedule ul > li {
+  align-items: center;
+  background: #e3e3e3;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+}
+.schedule ul > li:first-of-type {
+  background: #6ccbb8;
+}
+
+/*..........*/
+
+.schedule select {
+  border-radius: 0;
+  border: none;
+  width: 100px;
+  outline: none;
+}
+.schedule select::-webkit-scrollbar {
+  display: none;
+}
+
+.schedule option:disabled:first-of-type {
+  background: #76d7c4;
+  color: black;
+  font: bold 14px comfortaa;
+  font-style: normal;
+  opacity: 1 !important;
+}
+.schedule option {
+  align-items: center;
+  display: flex;
+  height: 30px;
+  justify-content: center;
+}

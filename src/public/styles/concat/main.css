@@ -16,7 +16,7 @@ body {
   position: relative;
 }
 
-/*..........*/
+/*<><><><><><><><><><>*/
 
 curtain {
   align-items: center;
@@ -25,7 +25,7 @@ curtain {
   justify-content: center;
   position: absolute;
   bottom: 0;
-  height: calc(100vh - 195px);
+  height: calc(100% - 195px);
   width: 100%;
 }
 
@@ -54,10 +54,12 @@ header {
 }
 
 header > img {
+  background: white;
   border-radius: 100%;
   display: block;
   object-fit: contain;
-  height: 100%;
+  height: 140px;
+  width: 140px;
 }
 
 header > div {
@@ -88,10 +90,12 @@ header > h1 {
 }
 
 #icon-utp {
+  background: transparent;
   cursor: pointer;
   display: block;
-  height: 70%;
   transform: translate(40px, 80px);
+  height: 70%;
+  width: fit-content;
 }
 
 /*<><><><><><><><><><>*/
@@ -123,14 +127,16 @@ nav > button {
 main {
   display: block;
   transition: all 0.3s ease-in;
-  height: calc(100vh - 200px);
+  height: auto;
   width: 100%;
 }
 main[center-content] {
   align-items: center;
   display: flex;
+  height: calc(100vh - 200px);
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 }
 
 main > h1 {

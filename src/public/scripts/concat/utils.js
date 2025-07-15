@@ -5,7 +5,21 @@ String.prototype.strToElement = function() {
   ;
 };
 
+/*..........*/
+
 async function requestModal(url, config = {}) {
+
+  Array.from(event.target.parentNode.children).forEach(buttonNode => {
+    if(buttonNode === event.target) {
+      buttonNode.style.opacity = .7;
+      buttonNode.style.transform = 'scale(0.9)';
+    } else {
+      buttonNode.style.opacity = 1;
+      buttonNode.style.transform = 'scale(1)';
+    }
+  });
+
+  /*..........*/
 
   if(typeof config.forceCancel === "undefined")
     config.forceCancel = false;
@@ -15,6 +29,10 @@ async function requestModal(url, config = {}) {
     config.success = ()=>{};
   if(typeof config.error === "undefined")
     config.error = ()=>{};
+  if(typeof config.centerContent === "undefined")
+    config.centerContent = false;
+
+  /*..........*/
 
   const curtainNode = document.querySelector("curtain");
   curtainNode.style.display = "flex";
@@ -23,57 +41,85 @@ async function requestModal(url, config = {}) {
     method: "GET"
   });
 
-  if(REQ.status == 200) {
+  /*..........*/
+
+  if(REQ.ok) {
 
     let RES = await REQ.text();
     RES = RES.strToElement();
 
     if(RES instanceof Element ? RES.nodeName === "MODAL" : false) {
-      
-      const modalContainerNode = document.getElementById("modal-viewer");
-      const requestUrlScript = await fetch(`/scripts${url.split("?")[0]}.js`);
+      const modalNode = document.getElementById("modal-viewer");
+
       let loadScriptNodes = [];
+      try {
+        const modalScript = await fetch(`/scripts${url.split("?")[0]}.js`);
 
-      if(requestUrlScript.status == 200) {
-        let urlScriptNode = document.createElement("script");
-        urlScriptNode.innerHTML = await requestUrlScript.text();
-        loadScriptNodes.push(urlScriptNode);
-      }
+        if(modalScript.ok) {
+          let localScriptNode = document.createElement("script");
+          localScriptNode.innerHTML = await modalScript.text();
+          loadScriptNodes.push(localScriptNode);
+        }
+      } catch {}
 
-      `<content>${RES.innerHTML}</content>`.strToElement().querySelectorAll("script").forEach(scriptNode => {
-        let innerScriptNode = document.createElement("script");
-        innerScriptNode.innerHTML = scriptNode.innerHTML;
-        loadScriptNodes.push(innerScriptNode);  
-      });
+      let loadStyleNode = false;
+      try {
+        const modalStyle = await fetch(`/styles${url.split("?")[0]}.css`);
+
+        if(modalStyle.ok) {
+          let localStyleNode = document.createElement("style");
+          localStyleNode.innerHTML = await modalStyle.text();
+          loadStyleNode = localStyleNode;
+        }
+      } catch {}
 
       if(config.transitionState) {
-        modalContainerNode.style.transform = "scale(0)";
+        modalNode.style.transform = "scale(0)";
         setTimeout(() => {
 
-          modalContainerNode.innerHTML = RES.innerHTML;
-          modalContainerNode.style.transform = "scale(1)";
+          modalNode.innerHTML = RES.innerHTML;
+          modalNode.style.transform = "scale(1)";
           curtainNode.style.display = "none";
 
-          let modalDispatchNode = document.createElement("script");
-          modalDispatchNode.innerHTML = "document.dispatchEvent(new Event('ModalDOMContentLoaded'))";
-          modalContainerNode.append(modalDispatchNode);
+          let dispatchNode = document.createElement("script");
+          dispatchNode.innerHTML = "document.dispatchEvent(new Event('ModalDOMContentLoaded'))";
+          modalNode.append(dispatchNode);
 
         }, 300);
       } else {
 
-        modalContainerNode.innerHTML = RES.innerHTML;
+        modalNode.innerHTML = RES.innerHTML;
         curtainNode.style.display = "none";
 
-        let modalDispatchNode = document.createElement("script");
-        modalDispatchNode.innerHTML = "document.dispatchEvent(new Event('ModalDOMContentLoaded'))";
-        modalContainerNode.append(modalDispatchNode);
+        let dispatchNode = document.createElement("script");
+        dispatchNode.innerHTML = "document.dispatchEvent(new Event('ModalDOMContentLoaded'))";
+        modalNode.append(dispatchNode);
 
       }
 
       document.addEventListener("ModalDOMContentLoaded", function handler(evnt) {
+        modalNode.removeAttribute("style");
         config.success();
+
+        if(config.centerContent) {
+          modalNode.setAttribute("center-content", null);
+        } else modalNode.removeAttribute("center-content");
+
         if(loadScriptNodes.length > 0)
-          loadScriptNodes.forEach(scriptNode => modalContainerNode.append(scriptNode));
+          loadScriptNodes.forEach(scriptNode => modalNode.append(scriptNode));
+
+        if(loadStyleNode instanceof Element)
+          modalNode.insertBefore(loadStyleNode, modalNode.firstElementChild);
+
+        if(typeof RES.style !== "undefined")
+          modalNode.setAttribute("style", RES.getAttribute("style"));
+
+        modalNode.querySelectorAll("script[reload]").forEach(scriptNode => {
+          let localScriptNode = document.createElement("script");
+          localScriptNode.innerHTML = scriptNode.innerHTML;
+          scriptNode.parentNode.replaceChild(localScriptNode, scriptNode);
+        });
+
         evnt.currentTarget.removeEventListener(evnt.type, handler);
       });
 
@@ -81,6 +127,8 @@ async function requestModal(url, config = {}) {
 
     } else config.success();
   }
+
+  /*..........*/
 
   config.error();
   
@@ -109,6 +157,8 @@ async function requestModal(url, config = {}) {
   }
 
 }
+
+/*..........*/
 
 function setClipboard(texto) {
   const textarea = document.createElement('textarea');

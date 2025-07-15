@@ -1,10 +1,29 @@
 <?php
-session_start();
-if(!isset($_SESSION['sessref'])) {
-  
-  require_once(__DOCUMENT_ROOT__.'/vendor/autoload.php');
-  require_once(__DOCUMENT_ROOT__.'/modules/getenv.php');
 
+require_once(__DOCUMENT_ROOT__.'/vendor/autoload.php');
+require_once(__DOCUMENT_ROOT__.'/modules/getenv.php');
+
+session_start();
+
+?>
+<?php
+if(isset($_POST['admin-login'])) {
+
+  $POST__user = $_POST['admin-user'] ?? null;
+  $POST__password = $_POST['admin-password'] ?? null;
+
+  $NOTICE__adminLogin = false;
+
+  if($POST__user === $_ENV['ADMIN_USER'] && $POST__password === $_ENV['ADMIN_PASSWORD']) {
+
+    $_SESSION['sessref'] = $POST__user; 
+    header('Location: /admin/dashboard');
+    exit;
+
+  } else $NOTICE__adminLogin = true;
+
+} elseif(!isset($_SESSION['sessref'])) {
+  
   $googleClient = new Google\Client;
   $googleClient->setClientId($_ENV['GOOGLE_AUTH__CLIEN_ID']);
   $googleClient->setClientSecret($_ENV['GOOGLE_AUTH__CLIEN_SECRET']);
@@ -15,17 +34,19 @@ if(!isset($_SESSION['sessref'])) {
 
   $googleAuthUrl = $googleClient->createAuthUrl();
 
-} else header('Location: /user/dashboard');
+} else header('Location: '.(($_SESSION['sessref'] === $_ENV['ADMIN_USER']) ? '/admin' : '/user').'/dashboard');
 ?>
 <!DOCTYPE html>
 <html lang="en-CO">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/login.css">
-    <link rel="shortcut icon" href="/resources/favicon.png" type="image/x-icon">
     <script src="/scripts/login.js"></script>
+
+    <link rel="shortcut icon" href="/resources/favicon.png" type="image/x-icon">
     <title>Muxnitor</title>
   </head>
   <body>
@@ -50,9 +71,6 @@ if(!isset($_SESSION['sessref'])) {
             Estudiante
           </button>
         </div>
-        <div>
-          <p></p>
-        </div>
       </form>
 
       <img src="/resources/icon-utp.webp">
@@ -61,6 +79,7 @@ if(!isset($_SESSION['sessref'])) {
 
     <script>
       const googleAuthUrl = '<?= $googleAuthUrl ?? null ?>';
+      <?php if($NOTICE__adminLogin ?? false) print('alert("Acceso administrativo incorrecto, intente nuevamente")') ?>
     </script>
 
     <?php include(__VIEWS_ROOT__.'/concat/footer.php') ?>

@@ -1,6 +1,5 @@
 <?php
 
-require_once(__DOCUMENT_ROOT__.'/vendor/autoload.php');
 require_once(__DOCUMENT_ROOT__.'/modules/getenv.php');
 
 $DBCONN_CONFIG = (object) [

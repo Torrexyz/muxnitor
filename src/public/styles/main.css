@@ -11,9 +11,10 @@
   padding: 0;
 }
 
+/*<><><><><><><><><><>*/
+
 body {
   align-items: center;
-  justify-content: center;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -30,4 +31,44 @@ button.default {
   margin: 5px 0;
   padding: 5px 10px;
   outline: none;
+}
+
+/*<><><><><><><><><><>*/
+
+table.default {
+  display: table;
+  font-family: montserrat;
+  table-layout: fixed;
+  width: 500px
+}
+
+table.default tr:nth-child(even) {
+  background: #F2F2F2;
+}
+
+table.default td, table.default th {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 5px 10px;
+  width: 150px;
+}
+
+table.default th {
+  background: #f5b041;
+  color: white;
+  font-family: 'Prosto One';
+  font-size: 11px;
+  padding: 5px 15px;
+}
+
+table.default td {
+  font-family: comfortaa;
+  font-size: 12px;
+  overflow-x: auto;
+}
+table.default td::-webkit-scrollbar {
+  height: 5px;
+}
+table.default td::-webkit-scrollbar-thumb {
+  background: gray;
 }

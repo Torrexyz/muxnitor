@@ -12,12 +12,12 @@ $POSTULANTS_CONTAINER = dbcursor("SELECT * FROM user")->fetchAll(PDO::FETCH_ASSO
 
   <table class="default">
     <tr>
-      <th>Correo</th>
-      <th>Nombre</th>
-      <th>Último<br>Promedio</th>
-      <th>Horario<br>Académico</th>
-      <th>Historial<br>Académico</th>
-      <th>Asignación de<br>Monitorias</th>
+      <th style="width:200px">Correo</th>
+      <th style="width:200px">Nombre</th>
+      <th style="width:125px">Último<br>Promedio</th>
+      <th style="width:125px">Horario<br>Académico</th>
+      <th style="width:125px">Historial<br>Académico</th>
+      <th style="width:125px">Asignación de<br>Monitorias</th>
     </tr>
     <?php
       foreach($POSTULANTS_CONTAINER as $postulant) {
@@ -28,7 +28,6 @@ $POSTULANTS_CONTAINER = dbcursor("SELECT * FROM user")->fetchAll(PDO::FETCH_ASSO
 
         if(file_exists("{$postulant['folder']}/schedule.html"))
           $postulant['schedule'] = file_get_contents("{$postulant['folder']}/schedule.html");
-
     ?>
       <tr>
         <td>

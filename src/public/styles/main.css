@@ -42,10 +42,6 @@ table.default {
   width: 500px
 }
 
-table.default tr:nth-child(even) {
-  background: #F2F2F2;
-}
-
 table.default td, table.default th {
   border: 1px solid #ddd;
   text-align: center;

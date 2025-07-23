@@ -43,7 +43,7 @@ if(isset($_GET['code'])) {
           'folder' => $USER__folder,
           'name'   => $USER__name,
           'prefix' => $USER__prefix
-        ]))) {
+        ]), true)) {
 
           $LOGIN_ACCOUNT_STATE = 2;
           session_start();

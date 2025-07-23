@@ -1,5 +1,6 @@
-<?php define('PRODUCTION_MODE', $_SERVER['HTTP_HOST'] !== 'localhost'); ?>
 <?php
+
+define('PRODUCTION_MODE', $_SERVER['HTTP_HOST'] !== 'localhost');
 
 error_reporting(E_ALL);
 

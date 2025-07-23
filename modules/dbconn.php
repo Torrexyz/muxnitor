@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DOCUMENT_ROOT__.'/modules/getenv.php');
+require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/getenv.php");
 
 $DBCONN_CONFIG = (object) [
   'server'   => $_ENV['DB__SERVER'],
@@ -22,11 +22,11 @@ try {
 ?>
 <?php
 
-function dbcursor(string $statement, ?array $params = null) {
+function dbcursor(string $statement, ?array $params = null, bool $checkexec = false) {
   global $DBCONN_DOOR;
   $QUERY = $DBCONN_DOOR->prepare($statement);
-  $QUERY->execute($params);
-  return $QUERY;
+  $stmt_bool_response = $QUERY->execute($params);
+  return $checkexec === false ? $QUERY : $stmt_bool_response;
 }
 
 ?>

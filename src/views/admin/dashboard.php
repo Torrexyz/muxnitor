@@ -20,7 +20,7 @@ require('session.php');
     <div class="container">
       
       <header>
-        <img src="https://a0.anyrgb.com/pngimg/1526/18/icon-ico-files-admin-system-administrator-ico-icon-download-user-profile-password-megaphone-login-thumbnail.png">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6tzE2WYauiI0dMsK2frm_VYQDwvrMpw1Z2g&s">
         <div>
           <h3>Administrador</h3>
           <p>Beatriz Gonzales</p>

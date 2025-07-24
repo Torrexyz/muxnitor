@@ -1,0 +1,59 @@
+fieldset.form1line {
+  display: none;
+}
+
+/*<><><><><><><><><><>*/
+
+.assign-schedule {
+  font: bold 12px 'Prosto One';
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  position: absolute;
+  right: 3.5px;
+  height: 464px;
+  width: 560px;
+  top: 20px;
+}
+
+/*..........*/
+
+.assign-schedule .weekday {
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  width: 100px;
+  outline: none;
+}
+.assign-schedule .weekday::-webkit-scrollbar {
+  display: none;
+}
+
+.assign-schedule .time {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 25px;
+  width: 78px;
+  margin-top: 2.3px;
+  position: relative;
+}
+
+.assign-schedule .time > div.subjectbox {
+  background: linear-gradient(45deg, #76d7c4, #85c1e9);
+  border-radius: 4px;
+  font: bold 10px Arial;
+  text-align: center;
+  display: block;
+  padding: 5px 0;
+  max-width: 90%;
+  width: 76px;
+  position: absolute;
+  top: 2px;
+  overflow: hidden;
+}
+.assign-schedule .time > div.subjectbox > u {
+  display: block;
+  font-size: 9px;
+  margin-bottom: 6px;
+}

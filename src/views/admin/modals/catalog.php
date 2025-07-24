@@ -52,10 +52,10 @@ if(!is_null($_POST['insert'] ?? null)) {
       <tr>
         <th style="width:70px">Código</th>
         <th style="width:200px" column-ref="subject">Materia</th>
-        <th column-ref="group">Grupo</th>
+        <th style="width:70px" column-ref="group">Grupo</th>
         <th column-ref="schedule">Horario</th>
         <th style="width:200px" column-ref="professor">Profesor</th>
-        <th>Monitor</th>
+        <th style="width:200px">Monitor</th>
       </tr>
       <?php
         foreach($CATALOG_CONTAINER as $catalog) {
@@ -72,9 +72,9 @@ if(!is_null($_POST['insert'] ?? null)) {
         <tr>
           <td oncontextmenu="changeCellValue(this, 'contextmenu-text')" tabindex="0" rowid-value="<?= $catalog['id'] ?>" cell-value="<?= $catalog['code'] ?>"><?= $catalog['code'] ?></td>
 
-          <td ondblclick="changeCellValue(this)" tabindex="0"><?= $catalog['subject'] ?></td>
+          <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="50"><?= $catalog['subject'] ?></td>
 
-          <td ondblclick="changeCellValue(this)" tabindex="0"><?= $catalog['group'] ?? 'SIN DEFINIR' ?></td>
+          <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="3"><?= $catalog['group'] ?? 'SIN DEFINIR' ?></td>
 
           <td ondblclick="changeCellValue(this, 'schedule')" tabindex="0" weekday-value="<?= $catalog_schedule_weekday ?>" starttime-value="<?= $catalog_schedule_time[0] ?>" endtime-value="<?= $catalog_schedule_time[1] ?>">
             <?php if(isset($catalog['schedule'])) { ?>
@@ -83,9 +83,9 @@ if(!is_null($_POST['insert'] ?? null)) {
             <?php } else print('SIN DEFINIR'); ?>
           </td>
 
-          <td ondblclick="changeCellValue(this)" tabindex="0"><?= $catalog['professor'] ?? 'SIN DEFINIR' ?></td>
+          <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="70"><?= $catalog['professor'] ?? 'SIN DEFINIR' ?></td>
 
-          <td><?= null ?? 'SIN DEFINIR' ?></td>
+          <td><?= dbcursor("SELECT `name` FROM `user` WHERE `id` = '{$catalog['user']}'")->fetch(PDO::FETCH_OBJ)->name ?? 'NO DEFINID@' ?></td>
         </tr>
       <?php } ?>
     </table>

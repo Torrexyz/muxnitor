@@ -18,15 +18,9 @@ CREATE TABLE `catalog`(
   `code` VARCHAR(5) NOT NULL,
   `subject` VARCHAR(50) NOT NULL,
   `group` VARCHAR(3) NULL,
-  `schedule` JSON NULL,
-  `professor` VARCHAR(35) NULL
-);
-
-CREATE TABLE `monitors`(
-  `user` VARCHAR(50) NOT NULL,
-  `catalog` INT NOT NULL,
-  CONSTRAINT `fk__monitors__user`
-    FOREIGN KEY (`user`) REFERENCES user(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk__monitors__catalog`
-    FOREIGN KEY (`catalog`) REFERENCES catalog(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  `schedule` VARCHAR(13) NULL,
+  `professor` VARCHAR(70) NULL,
+  `user` VARCHAR(50) NULL,
+  CONSTRAINT `fk__catalog__user`
+    FOREIGN KEY (`user`) REFERENCES user(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 );

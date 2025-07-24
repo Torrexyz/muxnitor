@@ -7,6 +7,16 @@ require(dirname(__DIR__).'/session.php');
   <style><?= file_get_contents(__PUBLIC_ROOT__.'/styles/concat/modals/information.css') ?></style>
 
   <div class="board">
+    
+    <?php foreach(array_reverse((array) json_decode(file_get_contents(__DATA_ROOT__.'/posts.json')) ?? []) as $post) { ?>
+      <div>
+        <span>Beatriz Gonzales</span>
+        <h3><?= $post->subject ?></h3>
+        <pre><?= $post->body ?></pre>
+        <i><?= $post->date ?></i>
+      </div>
+    <?php } ?>
+
     <div>
       <span>Beatriz Gonzales</span>
       <h3>Informe monitorias</h3>
@@ -28,5 +38,6 @@ Se envía formato guia para reporte de monitorias
       </ul>
       <i>11/07/2025 07:00 A.M</i>
     </div>
+
   </div>
 </modal>

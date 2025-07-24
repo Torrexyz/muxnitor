@@ -151,7 +151,8 @@ main[center-content] {
 }
 
 main > h1 {
-  display: block;
+  align-items: center;
+  display: flex;
   font: bold 2em "Prosto One";
 }
 

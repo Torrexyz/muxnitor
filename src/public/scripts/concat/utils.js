@@ -5,19 +5,29 @@ String.prototype.strToElement = function() {
   ;
 };
 
+function setClipboard(texto) {
+  const textarea = document.createElement('textarea');
+  textarea.value = texto;
+  document.body.appendChild(textarea);
+  textarea.select();
+  document.execCommand('copy')
+  document.body.removeChild(textarea);
+}
+
 /*<><><><><><><><><><>*/
 
 async function requestModal(url, config = {}) {
-
-  Array.from(event.target.parentNode.children).forEach(buttonNode => {
-    if(buttonNode === event.target) {
-      buttonNode.style.opacity = .7;
-      buttonNode.style.transform = 'scale(0.9)';
-    } else {
-      buttonNode.style.opacity = 1;
-      buttonNode.style.transform = 'scale(1)';
-    }
-  });
+  
+  if(typeof event !== "undefined")
+    Array.from(document.querySelector("nav").children).forEach(buttonNode => {
+      if(buttonNode === event.target) {
+        buttonNode.style.opacity = .7;
+        buttonNode.style.transform = 'scale(0.9)';
+      } else {
+        buttonNode.style.opacity = 1;
+        buttonNode.style.transform = 'scale(1)';
+      }
+    });
 
   /*..........*/
 
@@ -126,7 +136,7 @@ async function requestModal(url, config = {}) {
 
       return;
 
-    }
+    } else config.success();
   }
 
   config.error();
@@ -163,13 +173,53 @@ function requestPostModal(formNode, config) {
   }
 }
 
-/*..........*/
+/*<><><><><><><><><><>*/
 
-function setClipboard(texto) {
-  const textarea = document.createElement('textarea');
-  textarea.value = texto;
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy')
-  document.body.removeChild(textarea);
+async function requestPopup(innerHTML = String(), config = { popupStyle: String(), popupClassName: String(), finallyCall: ()=>{} }) {
+  
+  if(typeof config.popupStyle === "undefined")
+    config.popupStyle = String();
+  if(typeof config.popupClassName === "undefined")
+    config.popupClassName = String();
+  if(typeof config.finallyCall === "undefined")
+    config.finallyCall = ()=>{};
+
+  const activatorNode = event.target;
+  const activatorEventName = `on${event.type}`;
+  const activatorEventContent = activatorNode.getAttribute(activatorEventName);
+  const notipupNode = document.createElement("notipup");
+
+  activatorNode.removeAttribute(activatorEventName);
+  if(innerHTML[0] === '/') {
+    innerHTML = await fetch(innerHTML).then(response => innerHTML = response.text());
+    setTimeout(() => config.finallyCall(notipupNode), 0);
+  }
+
+  notipupNode.innerHTML = `<div style="${config.popupStyle}" class="${config.popupClassName}">
+    ${innerHTML}
+  </div>`;
+
+  const closeButtonNode = document.createElement("button");
+  closeButtonNode.type = "button";
+  closeButtonNode.className = "close-button";
+  closeButtonNode.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" height="50px" viewBox="0 -960 960 960" width="50px" fill="#ec7063"><path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Zm0-320Z"/></svg>`;
+  
+  closeButtonNode.onclick = () => {
+    notipupNode.style.transform = 'scale(0)';
+    setTimeout(() => {
+      notipupNode.remove();
+      activatorNode.setAttribute(activatorEventName, activatorEventContent);
+    }, 250);
+  };
+
+  notipupNode.append(closeButtonNode);
+  document.body.append(notipupNode);
+  setTimeout(() => notipupNode.style.transform = 'scale(1)', 100);
+
+  notipupNode.querySelectorAll("script").forEach(scriptNode => {
+    const dispatchNode = document.createElement("script");
+    dispatchNode.innerText = scriptNode.innerText;
+    scriptNode.parentNode.replaceChild(dispatchNode, scriptNode);
+  });
+
 }

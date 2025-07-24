@@ -3,14 +3,12 @@
 require_once(__DOCUMENT_ROOT__.'/modules/dbconn.php');
 
 session_start();
-
 if(!isset($_SESSION['sessref'])) {
 
   header('Location: '.ROUTER__defaultRoute.'#session-closed');
   exit;
 
 } else {
-  
   $DB_DATA = dbcursor("SELECT * FROM user WHERE `id` = '{$_SESSION['sessref']}'");
   if($DB_DATA->rowCount() != 1) {
 
@@ -19,7 +17,6 @@ if(!isset($_SESSION['sessref'])) {
     exit;
 
   } else $DB_DATA = (object) $DB_DATA->fetch(PDO::FETCH_ASSOC);
-
 }
 
 ?>

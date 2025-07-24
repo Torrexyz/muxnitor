@@ -1,0 +1,5 @@
+@import url('/styles/admin/modals/postulants.css');
+
+table.default th {
+  background: #52be80;
+}

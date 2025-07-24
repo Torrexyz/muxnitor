@@ -29,12 +29,3 @@ document.getElementById("file-chooser").onchange = (evnt) => {
 
   }
 };
-
-/*<><><><><><><><><><>*/
-
-function postAd() {
-  const subjectNode   = document.querySelector("input[name=post-subject]");
-  const bodyNode      = document.querySelector("textarea[name=post-body]");
-  const resourcesNode = document.querySelector('ul#post-resources');
-  alert('Etapa en construcción..');
-}

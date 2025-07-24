@@ -20,6 +20,7 @@ body {
   height: 100vh;
   width: 100%;
   overflow-y: scroll;
+  position: relative;
 }
 
 button.default {
@@ -67,4 +68,44 @@ table.default td::-webkit-scrollbar {
 }
 table.default td::-webkit-scrollbar-thumb {
   background: gray;
+}
+
+/*<><><><><><><><><><>*/
+
+notipup {
+  align-items: center;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  transform: scale(0);
+  transition: all 0.25s ease-in;
+  height: 100%;
+  max-width: var(--MAX_WINDOW_WIDTH);
+  width: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+notipup button.close-button {
+  align-items: center;
+  background: white;
+  border-radius: 10px;
+  border: 2px solid #D8D8D8;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  left: 25px;
+  top: 25px;
+  outline: none;
+}
+
+notipup h1.notice {
+  background: white;
+  border-radius: 20px 5px;
+  display: block;
+  font: bold 1.6em 'Prosto One';
+  padding: 15px 20px;
 }

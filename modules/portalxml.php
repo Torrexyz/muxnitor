@@ -26,12 +26,10 @@ class PortalXML {
           'details' => $history_details[$i]
         );
       }
-
     }
 
     # semester details extraction
     foreach($data as $mainIndex => $semesterContent) {
-
       $headers = [];
       $tableContent = [];
 
@@ -49,8 +47,8 @@ class PortalXML {
                 
         foreach($cellNodes as $rowIndex => $cellNode) {
           $key = $headers[$rowIndex] ?? $rowIndex;
-          $value = trim(html_entity_decode($cellNode->nodeValue));
-          $rowData[$key] = $value;
+          $nodeValue = trim(html_entity_decode($cellNode->nodeValue));
+          $rowData[$key] = $nodeValue;
         }
                 
         if(!empty($rowData))
@@ -58,7 +56,6 @@ class PortalXML {
       }
 
       $data[$mainIndex]['details'] = $tableContent;
-
     }
 
     return $data;
@@ -70,17 +67,55 @@ class PortalXML {
    * Reduces HTML content to a simple required format
    * @param string $innerHTML Raw html response
    */
-  static public function scheduleToHtml(string $innerHTML): string {
-    $data = '';
+  static public function scheduleToHtml(string $innerHTML): array {
+    $data = array('html'=>null, 'json'=>null);
 
     $dom = new DOMDocument();
     @$dom->loadHTML($innerHTML);
     $xpath = new DOMXPath($dom);
 
-    $data.= $dom->saveHTML($xpath->query("(//style)[1]")->item(0));
-    $data.= $dom->saveHTML($xpath->query("(//table)[2]")->item(0));
-    $data.= $dom->saveHTML($xpath->query("(//fieldset)[last()]")->item(0));
+    $DOMContext = $xpath->query("(//table)[2]")->item(0);
+    $visualMatrix = [];
+    $rowIndex = 0;
 
+    # construction of a visual matrix considering row width
+    foreach($DOMContext->getElementsByTagName('tr') as $trNode) {
+      $colIndex = 0;
+
+      if(!isset($visualMatrix[$rowIndex]))
+        $visualMatrix[$rowIndex] = [];
+
+      foreach($trNode->childNodes as $cellNode) {
+        if($cellNode->nodeType !== XML_ELEMENT_NODE || $cellNode->tagName !== 'td')
+          continue;
+        while(isset($visualMatrix[$rowIndex][$colIndex]))
+          $colIndex++;
+        $rowspan = max(1, (int)$cellNode->getAttribute('rowspan'));
+        for($i = 0; $i < $rowspan; $i++)
+          $visualMatrix[$rowIndex + $i][$colIndex] = $cellNode;
+        $colIndex++;
+      }
+
+      $rowIndex++;
+    }
+
+    foreach($xpath->query(".//td[contains(@class, 'texto')]", $DOMContext) as $tdNode) {
+      foreach($visualMatrix as $rowId) {
+        foreach($rowId as $colId => $cellNode) {
+          if($cellNode->isSameNode($tdNode)) {
+            $nodeValue = explode('/', $tdNode->nodeValue);
+            $data['json'][$colId+1][$nodeValue[0]][] = str_replace(' ', '', $nodeValue[1]);
+            break 2;
+          }
+        }
+      }
+    }
+    
+    $data['html'].= $dom->saveHTML($xpath->query("(//style)[1]")->item(0));
+    $data['html'].= $dom->saveHTML($DOMContext);
+    $data['html'].= $dom->saveHTML($xpath->query("(//fieldset)[last()]")->item(0));
+
+    $data['json'] = json_encode($data['json']);
     return $data;
   }
 

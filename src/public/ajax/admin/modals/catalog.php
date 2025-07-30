@@ -1,12 +1,12 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT'].'/modules/dbconn.php');
+require_once(dirname(__DIR__).'/admin-auth.php');
 
-ini_set('session.name', 'MUXSESSID');
 session_start();
 
+?>
+<?php
 if(($_SESSION['sessref'] ?? null) === $_ENV['ADMIN_USER']) {
-  
   if($_POST['action'] === 'update') {
 
     if(dbcursor("UPDATE `catalog` SET `{$_POST['column']}` = '{$_POST['text']}' WHERE `id` = '{$_POST['id']}'")->rowCount() != 1)
@@ -18,7 +18,5 @@ if(($_SESSION['sessref'] ?? null) === $_ENV['ADMIN_USER']) {
       http_response_code(500);
 
   } else http_response_code(400);
-
-} else { http_response_code(403); }
-
+} else http_response_code(403);
 ?>

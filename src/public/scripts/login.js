@@ -1,5 +1,6 @@
-// Access for student
+/* Callback for access as student */
 function showGoogleLogin(buttonNode) {
+
   const parentNode = buttonNode.parentNode;
   parentNode.style.transform = "scale(0)";
 
@@ -25,8 +26,9 @@ function showGoogleLogin(buttonNode) {
   }, 200);
 }
 
-// Access for admin
+/* Callback for access as admin */
 function showFormLogin(buttonNode) {
+  
   const parentNode = buttonNode.parentNode;
   parentNode.style.transform = "scale(0)";
 

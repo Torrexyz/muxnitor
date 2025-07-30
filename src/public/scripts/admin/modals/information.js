@@ -1,8 +1,14 @@
 document.getElementById("file-chooser").onchange = (evnt) => {
+
+  if(!evnt.target.hasOwnProperty("filesContainer"))
+    evnt.target.filesContainer = [];
+
   const fileInfo = evnt.target.files[0];
+  evnt.target.filesContainer.push(fileInfo);
+
   if(fileInfo) {
 
-    const fileIcon = (fileName) => {
+    const getIconFile = (fileName) => {
       if(fileName.includes('image/')) {
         return '<svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="30px" fill="black"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm40-80h480L570-480 450-320l-90-120-120 160Zm-40 80v-560 560Z"/></svg>';
       } else if(fileName.includes('pdf')) {
@@ -14,18 +20,39 @@ document.getElementById("file-chooser").onchange = (evnt) => {
       }
     };
 
-    const fileNode = document.createElement("li");
-    fileNode.fileInfo = fileInfo;
+    const dataTransferCall = () => {
+      const dataTransfer = new DataTransfer();
+      evnt.target.filesContainer.forEach(subFileInfo => {
+        if(subFileInfo !== undefined)
+          dataTransfer.items.add(subFileInfo);
+      });
+      evnt.target.files = dataTransfer.files;
+    };
+    
+    const removeNodeCall = (groupFileId) => {
+      delete evnt.target.filesContainer[groupFileId];
+      dataTransferCall();
+      fileNode.remove();
+    };
 
+    const fileNode = document.createElement("li");
+    fileNode.dataset.groupFileId = evnt.target.filesContainer.length-1;
     fileNode.innerHTML+= `
-      ${fileIcon(fileInfo.type)}
-      ${fileInfo.name.length >= 35 ? fileInfo.name.substr(0, 35) + '...' : fileInfo.name}
-      <i onclick="this.parentNode.remove()">
-        <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#ec7063"><path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/></svg>
-      </i>
+      ${getIconFile(fileInfo.type)}
+      ${fileInfo.name.length >= 30 ? fileInfo.name.substr(0, 30) + '...' : fileInfo.name}
     `;
 
+    const removeNode = document.createElement("i");
+    removeNode.onclick = () => removeNodeCall(fileNode.dataset.groupFileId);
+    removeNode.innerHTML =  `
+      <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#ec7063">
+        <path d="m291-240-51-51 189-189-189-189 51-51 189 189 189-189 51 51-189 189 189 189-51 51-189-189-189 189Z"/>
+      </svg>
+    `;
+
+    fileNode.append(removeNode);
     evnt.target.parentNode.nextElementSibling.append(fileNode);
+    dataTransferCall();
 
   }
 };

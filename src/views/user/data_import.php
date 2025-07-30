@@ -1,6 +1,5 @@
 <?php
 
-require_once(__DOCUMENT_ROOT__.'/modules/dbconn.php');
 require_once(__DOCUMENT_ROOT__.'/modules/portalxml.php');
 
 session_start();
@@ -60,7 +59,7 @@ if(!is_null($GET__data)) {
       # check if session exists
       if(!is_null($SESSION__sessref)) {
 
-        $user_sess_check = dbcursor("SELECT * FROM user WHERE `id` = '{$SESSION__sessref}'");
+        $user_sess_check = dbcursor("SELECT `folder` FROM user WHERE `id` = '{$SESSION__sessref}'");
         $USER_DATA = $user_sess_check->fetch(PDO::FETCH_ASSOC);
 
         # check if user exists
@@ -72,13 +71,25 @@ if(!is_null($GET__data)) {
           if(count($user_history_data) > 0) {
             
             # json history file saving
-            @file_put_contents(__DATA_ROOT__."/{$USER_DATA['folder']}/history.json", json_encode($user_history_data, JSON_PRETTY_PRINT));
+            @file_put_contents(
+              __DATA_ROOT__."/{$USER_DATA['folder']}/history.json",
+              json_encode($user_history_data, JSON_PRETTY_PRINT)
+            );
 
             # request user portal schedule
             $user_schedule_data = schedule_request($user_cookie_value);
 
             # html schedule file saving
-            @file_put_contents(__DATA_ROOT__."/{$USER_DATA['folder']}/schedule.html", $user_schedule_data);
+            @file_put_contents(
+              __DATA_ROOT__."/{$USER_DATA['folder']}/schedule.html",
+              $user_schedule_data['html']
+            );
+
+            # json schedule file saving
+            @file_put_contents(
+              __DATA_ROOT__."/{$USER_DATA['folder']}/schedule.json",
+              $user_schedule_data['json']
+            );
             
             # requests ok state
             $DOCUMENT_STATE = true;
@@ -99,7 +110,7 @@ if(!is_null($GET__data)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/concat/notices.css">
     <link rel="shortcut icon" href="/resources/favicon.png" type="image/x-icon">
-    <title>Importación de Cookies</title>
+    <title>Importación de Datos</title>
   </head>
   <body>
     <?php if(is_null($SESSION__sessref)) { ?>

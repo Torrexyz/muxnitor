@@ -1,6 +1,6 @@
 <?php
 
-require_once("{$_SERVER['DOCUMENT_ROOT']}/modules/dbconn.php");
+require_once(dirname(__DIR__).'/admin-auth.php');
 
 $GET__id = $_GET['id'] ?? null;
 $GET__get = $_GET['get'] ?? null;
@@ -12,7 +12,7 @@ $DB_DATA = dbcursor("SELECT * FROM user WHERE `id` = '{$GET__id}'");
 if($DB_DATA->rowCount() == 1) {
 
   $DB_DATA = (object) $DB_DATA->fetch(PDO::FETCH_ASSOC);
-  $DB_DATA->folder = "{$_SERVER['DOCUMENT_ROOT']}/data/{$DB_DATA->folder}";
+  $DB_DATA->folder = __DATA_ROOT__."/{$DB_DATA->folder}";
 
   if($GET__get === 'schedule') {
 
@@ -68,27 +68,48 @@ if($DB_DATA->rowCount() == 1) {
             </div>
           </div>
           <div>
-            <style>'.file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/src/public/styles/concat/modals/assign-schedule.css").'</style>
-            <script>'.file_get_contents("{$_SERVER['DOCUMENT_ROOT']}/src/public/scripts/concat/modals/assign-schedule.js").'</script>
+            <style>'.file_get_contents(__PUBLIC_ROOT__->styles.'/admin/assign-schedule.css').'</style>
+            <script>'.file_get_contents(__PUBLIC_ROOT__->scripts.'/admin/assign-schedule.js').'</script>
             <div>
+              <i>Oferta Académica</i>
               <select size="8" multiple>
                 <option onclick="setSubjectSchedule(this)">Limpiar</option>
       ';
 
+      $user_approved_subjects = [];
+      if(file_exists("{$DB_DATA->folder}/history.json")) {
+        foreach(json_decode(file_get_contents("{$DB_DATA->folder}/history.json")) as $semester) {
+          foreach($semester->details as $subject) {
+            if($subject->Estado === 'Aprobado')
+              $user_approved_subjects[] = substr($subject->Código, 0, 5);
+          }
+        }
+      }
+      
       foreach(dbcursor("SELECT * FROM `catalog` WHERE `schedule` IS NOT NULL")->fetchAll(PDO::FETCH_OBJ) as $subject) {
+
+        $subject->weekday = intval(explode('@', $subject->schedule)[0]);
+        $subject->time = explode('@', $subject->schedule)[1];
+        $subject->approved = $subject->user !== $GET__id ? in_array($subject->code, $user_approved_subjects) : true;
+
         $RENDER_HTML.= "
-          <option onclick='setSubjectSchedule(this)' value='{$subject->schedule}' data-subject-code='{$subject->code}' data-subject-id='{$subject->id}'>
+          <option onclick='setSubjectSchedule(this)' oncontextmenu='
+            event.preventDefault();
+            this.disabled=false;
+            this.selected=false;
+            this.oncontextmenu=null
+          ' value='{$subject->schedule}' data-subject-code='{$subject->code}' data-subject-id='{$subject->id}' ".(!$subject->approved ? 'disabled' : null).">
             {$subject->code} - {$subject->subject}
             |
-            ".array('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado')[intval(explode('@', $subject->schedule)[0])-1]."
+            ".array('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')[$subject->weekday-1]."
             de
-            ".str_replace('-', ' a ', explode('@', $subject->schedule)[1])."
+            ".str_replace('-', ' a ', $subject->time)."
           </option>
           ".($subject->user === $GET__id ? 
             '<script>
               document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).selected = true;
-              document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).click();
               document.currentScript.remove();
+              setTimeout(() => document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).click(), 0);
             </script>' : null
           )."
         ";
@@ -105,6 +126,10 @@ if($DB_DATA->rowCount() == 1) {
             </div>
           </div>
         </div>
+        <script>
+          var CURRENT_SCHEDULE_DATA = JSON.parse(`'.(file_get_contents("{$DB_DATA->folder}/schedule.json") ?? null).'`);
+          document.currentScript.remove();
+        </script>
       ';
 
     } else exit('<h2>Datos no encontrados</h2>');
@@ -112,7 +137,14 @@ if($DB_DATA->rowCount() == 1) {
   } else exit('component nof found');
 }
 ?>
-<h2><?= $DB_DATA->name ?? 'INDEFINID@' ?></h2>
+<h2>
+  <?php if(isset($DB_DATA->name)) {
+    echo <<<HTML
+      {$DB_DATA->name}
+      <span>0 horas</span>
+    HTML;
+  } else print('INDEFINID@') ?>
+</h2>
 <br>
 <br>
 <?= $RENDER_HTML ?>

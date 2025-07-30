@@ -76,14 +76,14 @@ if(!is_null($_POST['insert'] ?? null)) {
 
           <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="3"><?= $catalog['group'] ?? 'SIN DEFINIR' ?></td>
 
-          <td ondblclick="changeCellValue(this, 'schedule')" tabindex="0" weekday-value="<?= $catalog_schedule_weekday ?>" starttime-value="<?= $catalog_schedule_time[0] ?>" endtime-value="<?= $catalog_schedule_time[1] ?>">
+          <td ondblclick="changeCellValue(this, 'schedule')" tabindex="0" weekday-value="<?= $catalog_schedule_weekday ?? null ?>" starttime-value="<?= $catalog_schedule_time[0] ?? null ?>" endtime-value="<?= $catalog_schedule_time[1] ?? null ?>">
             <?php if(isset($catalog['schedule'])) { ?>
               <?= array('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado')[intval($catalog_schedule_weekday)-1] ?>
               <br>de <?= $catalog_schedule_time[0] ?> a <?= $catalog_schedule_time[1] ?>
             <?php } else print('SIN DEFINIR'); ?>
           </td>
 
-          <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="70"><?= $catalog['professor'] ?? 'SIN DEFINIR' ?></td>
+          <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="100"><?= $catalog['professor'] ?? 'SIN DEFINIR' ?></td>
 
           <td><?= dbcursor("SELECT `name` FROM `user` WHERE `id` = '{$catalog['user']}'")->fetch(PDO::FETCH_OBJ)->name ?? 'NO DEFINID@' ?></td>
         </tr>

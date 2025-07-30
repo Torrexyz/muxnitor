@@ -165,6 +165,12 @@ function requestPostModal(formNode, config) {
   const bodyRequest = new FormData(formNode);
   bodyRequest.append(event.target.getAttribute("name"), event.target.value);
 
+  formNode.querySelectorAll("input[type='file']").forEach(inputNode => {
+    bodyRequest.delete(inputNode.getAttribute("name"));
+    for(let i = 0; i < inputNode.files.length; i++)
+      bodyRequest.append(inputNode.getAttribute("name"), inputNode.files[i]);
+  });
+
   if(formNode instanceof Element ? formNode.nodeName === "FORM" : false) {
     requestModal(
       `${(new URL(formNode.action)).pathname}${(new URL(formNode.action)).search}`,

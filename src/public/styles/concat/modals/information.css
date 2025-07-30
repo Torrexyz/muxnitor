@@ -48,6 +48,7 @@
   flex-wrap: wrap;
   list-style: none;
   font: normal 12px comfortaa;
+  margin-top: 15px;
 }
 
 .board > div > ul > li {
@@ -72,11 +73,19 @@
 .board > div > i {
   background: #e8daef;
   border-radius: 5px;
-  font: normal 13px monospace;
+  font: normal 13px 'Prosto One';
   padding: 5px 10px;
   position: absolute;
   top: -10px;
   right: -10px;
+}
+
+.board > div > svg {
+  cursor: pointer;
+  display: block;
+  margin: auto;
+  margin-right: -10px;
+  margin-bottom: 10px;
 }
 
 /*<><><><><><><><><><>*/

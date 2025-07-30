@@ -10,7 +10,7 @@ function changeCellValue(cellNode, inputType = 'text') {
     const inputNode = document.createElement("input");
     inputNode.type = "text";
     inputNode.maxLength = cellNode.dataset.maxlength;
-    inputNode.value = lastValue;
+    inputNode.value = lastValue !== 'SIN DEFINIR' ? lastValue : null;
 
     inputNode.onkeydown = (event) => {
       if(event.key === 'Enter') {

@@ -23,7 +23,7 @@ require('session.php');
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6tzE2WYauiI0dMsK2frm_VYQDwvrMpw1Z2g&s">
         <div>
           <h3>Administrador</h3>
-          <p>Beatriz Gonzales</p>
+          <p>Master</p>
           <b>@utp.edu.co</b>
           <br>
           <i onclick="window.open('https://ingenierias.utp.edu.co/ingenieria-electronica/')">Ingenieria Electrónica</i>

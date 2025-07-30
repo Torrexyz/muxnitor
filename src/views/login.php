@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DOCUMENT_ROOT__.'/modules/getenv.php');
-
 session_start();
 
 ?>
@@ -46,7 +44,7 @@ if(isset($_POST['admin-login'])) {
     <script src="/scripts/login.js"></script>
 
     <link rel="shortcut icon" href="/resources/favicon.png" type="image/x-icon">
-    <title>Muxnitor</title>
+    <title>Portal de Ingreso | Muxnitor</title>
   </head>
   <body>
     <div class="container">
@@ -56,7 +54,7 @@ if(isset($_POST['admin-login'])) {
         <h1>Sistema de gestión para<br>monitores académicos</h1>
       </header>
 
-      <form action="" method="post">
+      <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
         <div class="type-selection">
           <b>TIPO DE INGRESO</b>
           <button type="button" class="default" onclick="showFormLogin(this)">

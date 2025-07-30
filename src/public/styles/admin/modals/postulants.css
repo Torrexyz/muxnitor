@@ -6,7 +6,7 @@
   display: flex;
   flex-direction: column;
   padding: 40px 20px 20px;
-  max-height: -webkit-fill-available;
+  max-height: 95%;
   width: 90%;
   overflow: auto;
 }
@@ -18,8 +18,20 @@
   font-family: 'Prosto One';
   text-align: center;
   margin: auto;
+  position: relative;
   padding: 5px 20px;
   width: 80%;
+}
+.popup > h2:first-child > span {
+  background: #51A2FF;
+  border-radius: 15px 0;
+  color: white;
+  display: block;
+  font-size: 14px;
+  padding: 5px 20px;
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
 }
 
 /*<><><><><><><><><><>*/
@@ -82,6 +94,15 @@
   padding: 20px 10px;
 }
 
+.popup .assign > div:last-child i {
+  background: #dcdcdc;
+  display: block;
+  font: bold 13px 'Prosto One';
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
 .popup .assign > div:last-child select {
   border: none;
   border-radius: 5px;
@@ -96,6 +117,9 @@
 .popup .assign > div:last-child select > option {
   font-size: 12px;
   padding: 5px;
+}
+.popup .assign > div:last-child select > option[disabled] {
+  background: #FFC9C9;
 }
 
 .popup .assign > div:last-child button {

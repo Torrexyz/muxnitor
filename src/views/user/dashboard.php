@@ -25,7 +25,7 @@ require('session.php');
       <header>
         <img src="<?= htmlspecialchars($DB_DATA->profileImage) ?>">
         <div>
-          <h3>Postulante</h3>
+          <h3><?= dbcursor("SELECT `user` FROM `catalog` WHERE `user` = '{$DB_DATA->id}'")->rowCount() == 1 ? 'Monitor Activo' : 'Postulante' ?></h3>
           <p><?= $DB_DATA->name ?></p>
           <b>@utp.edu.co</b>
           <br>

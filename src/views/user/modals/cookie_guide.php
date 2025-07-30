@@ -10,13 +10,12 @@ $GET__steps = $_GET['steps'] ?? null;
 
     <p>
       <i>¿QUÉ ES Y POR QUÉ ES NECESARIO SACAR MANUALMENTE LA COOKIE DE SESIÓN?</i>
-      <br><br>
+      <br>
+      <br>
+      <br>
       La cookie de sesión es un identificador temporal que se genera al iniciar sesión en el portal estudiantil y
       dura solo unos minutos. Esta cookie se usara en lugar de las credenciales de inicio de su portal academico
       para acceder a los datos requeridos (horario e historial académico), y asi mantener su privacidad 😉
-      <br><br>
-      Usted extraerá manualmente la cookie desde su navegador de confianza en su dispositivo,
-      una vez haya iniciado la sesión en su portal academico. Sigue estos sencillos siguientes pasos 🤓
     </p>
     
     <br><br>

@@ -1,7 +1,4 @@
 <?php
-
-require_once(__DOCUMENT_ROOT__.'/modules/dbconn.php');
-
 session_start();
 if(!isset($_SESSION['sessref'])) {
 
@@ -18,7 +15,6 @@ if(!isset($_SESSION['sessref'])) {
 
   } else $DB_DATA = (object) $DB_DATA->fetch(PDO::FETCH_ASSOC);
 }
-
 ?>
 <?php
 

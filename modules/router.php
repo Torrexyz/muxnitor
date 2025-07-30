@@ -1,7 +1,7 @@
 <?php
 
-define('__PUBLIC_ROOT__', __DOCUMENT_ROOT__.'/src/public');
-define('__VIEWS_ROOT__', __DOCUMENT_ROOT__.'/src/views');
+const ROUTER__defaultRoute = '/login';
+#const ROUTER__error400Path = '/error404.php';
 
 $REQUEST__route = rtrim(str_replace($_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']), '?');
 $REQUEST__filename = __VIEWS_ROOT__.str_replace('-', '_', "{$REQUEST__route}.php");

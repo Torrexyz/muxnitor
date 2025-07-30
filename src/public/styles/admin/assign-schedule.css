@@ -29,6 +29,8 @@ fieldset.form1line {
   display: none;
 }
 
+/*..........*/
+
 .assign-schedule .time {
   align-items: center;
   display: flex;
@@ -38,6 +40,8 @@ fieldset.form1line {
   margin-top: 2.3px;
   position: relative;
 }
+
+/*..........*/
 
 .assign-schedule .time > div.subjectbox {
   background: linear-gradient(45deg, #76d7c4, #85c1e9);
@@ -49,9 +53,17 @@ fieldset.form1line {
   max-width: 90%;
   width: 76px;
   position: absolute;
-  top: 2px;
-  overflow: hidden;
+  top: 0;
+  overflow: scroll;
 }
+.assign-schedule .time > div.subjectbox.superimposed {
+  background: #FFC9C9;
+  border: 3px dashed #FB2C36;
+}
+.assign-schedule .time > div.subjectbox::-webkit-scrollbar {
+  display: none;
+}
+
 .assign-schedule .time > div.subjectbox > u {
   display: block;
   font-size: 9px;

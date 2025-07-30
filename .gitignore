@@ -1,5 +1,5 @@
-data/*
-!data/.gitkeep
+content/*
+!content/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

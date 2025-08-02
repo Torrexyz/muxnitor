@@ -93,32 +93,35 @@ if($DB_DATA->rowCount() == 1) {
       }
       
       foreach(dbcursor("SELECT * FROM `catalog` WHERE `schedule` IS NOT NULL")->fetchAll(PDO::FETCH_OBJ) as $subject) {
+        if(isset($_GET['assignvility']) ? is_null($subject->user) : $subject->user === $GET__id or is_null($subject->user)) {
 
-        $subject->weekday = intval(explode('@', $subject->schedule)[0]);
-        $subject->time = explode('@', $subject->schedule)[1];
-        $subject->approved = $subject->user !== $GET__id ? in_array($subject->code, $user_approved_subjects) : true;
+          $subject->weekday = intval(explode('@', $subject->schedule)[0]);
+          $subject->time = explode('@', $subject->schedule)[1];
+          $subject->approved = $subject->user !== $GET__id ? in_array($subject->code, $user_approved_subjects) : true;
 
-        $RENDER_HTML.= "
-          <option onclick='setSubjectSchedule(this)' oncontextmenu='
-            event.preventDefault();
-            this.disabled=false;
-            this.selected=false;
-            this.oncontextmenu=null
-          ' value='{$subject->schedule}' data-subject-code='{$subject->code}' data-subject-id='{$subject->id}' ".(!$subject->approved ? 'disabled' : null).">
-            {$subject->code} - {$subject->subject}
-            |
-            ".array('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')[$subject->weekday-1]."
-            de
-            ".str_replace('-', ' a ', $subject->time)."
-          </option>
-          ".($subject->user === $GET__id ? 
-            '<script>
-              document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).selected = true;
-              document.currentScript.remove();
-              setTimeout(() => document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).click(), 0);
-            </script>' : null
-          )."
-        ";
+          $RENDER_HTML.= "
+            <option onclick='setSubjectSchedule(this)' oncontextmenu='
+              event.preventDefault();
+              this.disabled=false;
+              this.selected=false;
+              this.oncontextmenu=null
+            ' value='{$subject->schedule}' data-subject-code='{$subject->code}' data-subject-id='{$subject->id}' ".(!$subject->approved ? 'disabled' : null).">
+              {$subject->code} - {$subject->subject}
+              |
+              ".array('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo')[$subject->weekday-1]."
+              de
+              ".str_replace('-', ' a ', $subject->time)."
+            </option>
+            ".($subject->user === $GET__id ? 
+              '<script>
+                document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).selected = true;
+                document.currentScript.remove();
+                setTimeout(() => document.querySelector(`option[data-subject-id="'.$subject->id.'"]`).click(), 0);
+              </script>' : null
+            )."
+          ";
+
+        }
       }
 
       $RENDER_HTML.= '

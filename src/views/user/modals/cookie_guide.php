@@ -61,7 +61,7 @@ $GET__steps = $_GET['steps'] ?? null;
 
         <div class="swiper-slide">
           <img src="/resources/user/cookie-step5.jpg" style="width:100%">
-          <p>5. Finalmente... si todo salió bien, los datos se abran cargado correctamente ✅ y solo deberás esperar ⏳ el resultado de su postulación 😁</p>
+          <p>5. Finalmente... si todo salió bien, los datos se abran cargado correctamente ✅ y solo deberás esperar tus resultados</p>
         </div>
 
       </div>

@@ -1,6 +1,12 @@
 <?php
 
-require_once(dirname(__DIR__).'/admin-auth.php');
+require("{$_SERVER['DOCUMENT_ROOT']}/autoload.php");
+
+session_start();
+if(!isset($_SESSION['sessref'])) {
+  http_response_code(401);
+  exit;
+}
 
 $GET__id = $_GET['id'] ?? null;
 $GET__get = $_GET['get'] ?? null;

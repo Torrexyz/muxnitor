@@ -10,10 +10,14 @@ body {
   display: table;
   margin: auto;
   height: 100vh;
-  max-width: var(--MAX_WINDOW_WIDTH);
-  width: 100%;
+  width: var(--MAX_WINDOW_WIDTH);
   overflow-y: auto;
   position: relative;
+}
+@media (max-width: 768px) {
+  .container {
+    margin-left: 25px;
+  }
 }
 
 /*<><><><><><><><><><>*/

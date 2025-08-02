@@ -13,6 +13,7 @@ if(isset($_POST['admin-login'])) {
 
   if($POST__user === $_ENV['ADMIN_USER'] && $POST__password === $_ENV['ADMIN_PASSWORD']) {
 
+    $_SESSION['sesstype'] = 'ADMIN';
     $_SESSION['sessref'] = $POST__user; 
     header('Location: /admin/dashboard');
     exit;
@@ -37,8 +38,9 @@ if(isset($_POST['admin-login'])) {
 <html lang="en-CO">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/login.css">
     <script src="/scripts/login.js"></script>

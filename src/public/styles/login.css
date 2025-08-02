@@ -32,6 +32,17 @@ body {
   bottom: -25px;
 }
 
+@media (max-width: 768px) {
+  .container {
+    border-radius: 0;
+    max-width: 100%;
+  }
+  .container > img {
+    left: -10px;
+    bottom: -10px;
+  }
+}
+
 form {
   align-items: center;
   display: flex;

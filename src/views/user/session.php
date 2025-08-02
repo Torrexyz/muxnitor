@@ -1,11 +1,9 @@
 <?php
+
 session_start();
-if(!isset($_SESSION['sessref'])) {
 
-  header('Location: '.ROUTER__defaultRoute.'#session-closed');
-  exit;
+if(isset($_SESSION['sessref']) ? $_SESSION['sesstype'] === 'USER' : false) {
 
-} else {
   $DB_DATA = dbcursor("SELECT * FROM user WHERE `id` = '{$_SESSION['sessref']}'");
   if($DB_DATA->rowCount() != 1) {
 
@@ -13,8 +11,13 @@ if(!isset($_SESSION['sessref'])) {
     header('Location: '.ROUTER__defaultRoute.'#session-invalid');
     exit;
 
-  } else $DB_DATA = (object) $DB_DATA->fetch(PDO::FETCH_ASSOC);
+  } else { $DB_DATA = (object) $DB_DATA->fetch(PDO::FETCH_ASSOC); }
+
+} else {
+  header('Location: '.ROUTER__defaultRoute.'#session-closed');
+  exit;
 }
+
 ?>
 <?php
 

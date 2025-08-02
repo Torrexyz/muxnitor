@@ -2,13 +2,16 @@
 
 require('session.php');
 
+$DB_DATA->checkLabor = dbcursor("SELECT `user` FROM `catalog` WHERE `user` = '{$DB_DATA->id}'")->rowCount() > 0;
+
 ?>
 <!DOCTYPE html>
 <html lang="es-CO">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/concat/main.css">
     <script src="/scripts/concat/utils.js"></script>
@@ -25,7 +28,7 @@ require('session.php');
       <header>
         <img src="<?= htmlspecialchars($DB_DATA->profileImage) ?>">
         <div>
-          <h3><?= dbcursor("SELECT `user` FROM `catalog` WHERE `user` = '{$DB_DATA->id}'")->rowCount() == 1 ? 'Monitor Activo' : 'Postulante' ?></h3>
+          <h3><?= $DB_DATA->checkLabor ? 'Monitor' : 'Postulante' ?></h3>
           <p><?= $DB_DATA->name ?></p>
           <b>@utp.edu.co</b>
           <br>
@@ -83,15 +86,35 @@ require('session.php');
 
         <?php } else { ?>
 
-          <h1 style="color:#1abc9c">Postulación exitosa</h1>
-          <br>
-          <p>
-            ¡Todo listo!, ahora solo debes esperar a que seas asignado a alguna monitoria,
-            <br>
-            recuerda que este proceso es respecto a los criterios de prioridad y evaluación de monitores.
-            <br><br>
-            <i>(Para más información consulta la dirección del programa académico)</i>
-          </p>
+          <?php
+            if(!$DB_DATA->checkLabor) {
+
+              echo <<<HTML
+                <h1 style="color:#1abc9c">Postulación exitosa</h1>
+                <br>
+                <p>
+                  ¡Todo listo!, ahora solo debes esperar a que seas asignado a alguna monitoria,
+                  <br>
+                  recuerda que este proceso es respecto a los criterios de prioridad y evaluación de monitores.
+                  <br><br>
+                  <i>(Para más información consulta la dirección del programa académico)</i>
+                </p>
+              HTML;
+
+            } else {
+
+              echo <<<HTML
+                <h1 style="color:#37BC7D">Estado Activo</h1>
+                <br>
+                <p>
+                  Actualmente ere un monitor activo, revisa la información correspondiente
+                  <br>
+                  en las opciones disponibles para ti
+                </p>
+              HTML;
+              
+            }
+          ?>
 
         <?php } ?>
 

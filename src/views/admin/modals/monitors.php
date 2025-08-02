@@ -10,11 +10,12 @@ $MONITORS_CONTAINER = dbcursor("SELECT * FROM `user` WHERE `id` IN (SELECT `user
 
   <table class="default">
     <tr>
-      <th style="width:200px">Correo</th>
       <th style="width:200px">Nombre</th>
+      <th style="width:200px">Correo</th>
+      <th style="width:125px">Cantidad<br>Monitorias</th>
       <th style="width:125px">Horario<br>Académico</th>
-      <th>Bitácora</th>
       <th style="width:125px">Asignación de<br>Monitorias</th>
+      <th>Última Sesión</th>
     </tr>
     <?php
       foreach($MONITORS_CONTAINER as $postulant) {
@@ -28,12 +29,14 @@ $MONITORS_CONTAINER = dbcursor("SELECT * FROM `user` WHERE `id` IN (SELECT `user
     ?>
       <tr>
         <td>
+          <?= $postulant['name'] ?>
+        </td>
+        
+        <td>
           <?= $postulant['id'] ?>@utp.edu.co
         </td>
 
-        <td>
-          <?= $postulant['name'] ?>
-        </td>
+        <td><?= dbcursor("SELECT `user` FROM `catalog` WHERE `user` = '{$postulant['id']}'")->rowCount() ?></td>
 
         <td>
           <?php if(isset($postulant['schedule'])) { ?>
@@ -53,16 +56,14 @@ $MONITORS_CONTAINER = dbcursor("SELECT * FROM `user` WHERE `id` IN (SELECT `user
         </td>
 
         <td>
-          <svg style="cursor:pointer" onclick="alert('Función en desarrollo..')" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-640v560h560v-560h-80v280l-100-60-100 60v-280H200Zm0 560v-560 560Z"/></svg>
-        </td>
-
-        <td>
           <?php if(isset($postulant['history']) && isset($postulant['schedule'])) { ?>
             <svg style="cursor:pointer" onclick="requestPopup('/ajax/admin/modals/postulants.php?id=<?= $postulant['id'] ?>&get=assign', { popupStyle: 'align-items:unset', popupClassName: 'popup' })" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v200h-80v-40H200v400h280v80H200Zm0-560h560v-80H200v80Zm0 0v-80 80ZM560-80v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q8 9 12.5 20t4.5 22q0 11-4 22.5T903-300L683-80H560Zm300-263-37-37 37 37ZM620-140h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z"/></svg>
           <?php } else { ?>
             NO DISPONIBLE
           <?php } ?>
         </td>
+
+        <td><?= substr($postulant['lastsess'], 0, -3) ?></td>
       </tr>
     <?php } ?>
   </table>

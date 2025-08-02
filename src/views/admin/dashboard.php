@@ -7,8 +7,9 @@ require('session.php');
 <html lang="es-CO">
   <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/styles/concat/main.css">
     <script src="/scripts/concat/utils.js"></script>
@@ -20,10 +21,10 @@ require('session.php');
     <div class="container">
       
       <header>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6tzE2WYauiI0dMsK2frm_VYQDwvrMpw1Z2g&s">
+        <img src="/resources/icon-admin.jpg">
         <div>
           <h3>Administrador</h3>
-          <p>Master</p>
+          <p>Gestor Encargado</p>
           <b>@utp.edu.co</b>
           <br>
           <i onclick="window.open('https://ingenierias.utp.edu.co/ingenieria-electronica/')">Ingenieria Electrónica</i>
@@ -65,10 +66,14 @@ require('session.php');
       </nav>
 
       <main id="modal-viewer" center-content>
-        <h1 style="color:#1abc9c">Sistema de Gestión de Monitorias</h1>
-        <br>
+        <h1 style="color:#1abc9c">Sistema de Información de Monitorias</h1>
+        <br><br>
         <p>
-          <i>(Para más información o reportes, consultar al soporte de la plataforma)</i>
+          <i>
+            Para más novedades o reportes, consultar al soporte de la plataforma:
+            <br><br>
+            ( jean.torres@utp.edu.co | +57 3104436802 )
+          </i>
         </p>
       </main>
 

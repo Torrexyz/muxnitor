@@ -1,5 +1,8 @@
+src/public/resources/user/*
+
 content/*
-!content/.gitkeep
+!content/data/.gitkeep
+!content/docs/.gitkeep
 
 vendor/*
 !vendor/.gitkeep

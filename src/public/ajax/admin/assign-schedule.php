@@ -1,6 +1,6 @@
 <?php
 
-require_once('admin-auth.php');
+require('auth.php');
 
 $GET__subjects = $_GET['subjects'] ?? null;
 $GET__user = $_GET['user'] ?? null;

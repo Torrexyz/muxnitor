@@ -81,11 +81,15 @@ notipup {
   transform: scale(0);
   transition: all 0.25s ease-in;
   height: 100%;
-  max-width: var(--MAX_WINDOW_WIDTH);
-  width: 100%;
+  width: var(--MAX_WINDOW_WIDTH);
   position: absolute;
   inset: 0;
   z-index: 2;
+}
+@media (max-width: 768px) {
+  notipup {
+    margin-left: 25px;
+  }
 }
 
 notipup button.close-button {

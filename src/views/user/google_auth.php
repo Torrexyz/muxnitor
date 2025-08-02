@@ -49,6 +49,7 @@ if(isset($_GET['code'])) {
       }
 
       session_start();
+      $_SESSION['sesstype'] = 'USER';
       $_SESSION['sessref'] = $USER_ID;
       $USER__pathFolder = __DATA_ROOT__."/{$USER__folder}";
       

@@ -15,9 +15,8 @@ $LABOR_CONTAINER = dbcursor("SELECT * FROM `catalog` WHERE `user` = '{$DB_DATA->
       <th style="width:70px">Código</th>
       <th style="width:200px" column-ref="subject">Materia</th>
       <th style="width:70px" column-ref="group">Grupo</th>
-      <th column-ref="schedule">Horario<br>Designado</th>
-      <th style="width:200px" column-ref="professor">Información<br>Docente</th>
-      <th>Bitácora</th>
+      <th column-ref="schedule">Horario<br>Asignado</th>
+      <th style="width:300px" column-ref="professor">Información<br>Docente</th>
     </tr>
     <?php
       foreach($LABOR_CONTAINER as $catalog) {
@@ -46,10 +45,6 @@ $LABOR_CONTAINER = dbcursor("SELECT * FROM `catalog` WHERE `user` = '{$DB_DATA->
         </td>
 
         <td tabindex="0"><?= $catalog['professor'] ?? 'SIN DEFINIR' ?></td>
-
-        <td>
-          <svg style="cursor:pointer" onclick="alert('Función en desarrollo..')" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="black"><path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-640v560h560v-560h-80v280l-100-60-100 60v-280H200Zm0 560v-560 560Z"/></svg>
-        </td>
       </tr>
     <?php } ?>
   </table>

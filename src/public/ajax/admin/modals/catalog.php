@@ -1,22 +1,18 @@
 <?php
 
-require_once(dirname(__DIR__).'/admin-auth.php');
-
-session_start();
+require(dirname(__DIR__).'/auth.php');
 
 ?>
 <?php
-if(($_SESSION['sessref'] ?? null) === $_ENV['ADMIN_USER']) {
-  if($_POST['action'] === 'update') {
+if($_POST['action'] === 'update') {
 
-    if(dbcursor("UPDATE `catalog` SET `{$_POST['column']}` = '{$_POST['text']}' WHERE `id` = '{$_POST['id']}'")->rowCount() != 1)
-      http_response_code(500);
+  if(dbcursor("UPDATE `catalog` SET `{$_POST['column']}` = '{$_POST['text']}' WHERE `id` = '{$_POST['id']}'")->rowCount() != 1)
+    http_response_code(500);
 
-  } elseif($_POST['action'] === 'delete') {
+} elseif($_POST['action'] === 'delete') {
 
-    if(dbcursor("DELETE FROM `catalog` WHERE `id` = '{$_POST['id']}'")->rowCount() != 1)
-      http_response_code(500);
+  if(dbcursor("DELETE FROM `catalog` WHERE `id` = '{$_POST['id']}'")->rowCount() != 1)
+    http_response_code(500);
 
-  } else http_response_code(400);
-} else http_response_code(403);
+} else http_response_code(400);
 ?>

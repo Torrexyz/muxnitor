@@ -33,7 +33,7 @@ if(!is_null($GET__filename)) {
 
     }
 
-  } else print('<mark>Archivo no detectado</mark>');
-} else print('<mark>Archivo no detectado</mark>');
+  } else print('<mark>Archivo no <b>encontrado</b></mark>');
+} else print('<mark>Archivo no <b>detectado</b></mark>');
 
 ?>

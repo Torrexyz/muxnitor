@@ -36,7 +36,7 @@
 .board > div > pre {
   display: block;
   font: normal 13px comfortaa;
-  margin: 15px auto 5px;
+  margin: 15px auto 20px;
   white-space: pre-wrap;
   word-wrap: break-word;
 }

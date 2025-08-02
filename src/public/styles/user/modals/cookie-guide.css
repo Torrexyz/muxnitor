@@ -10,8 +10,7 @@
   box-shadow: 0 0 5px gray;
   border-radius: 15px;
   height: calc(100% - 100px);
-  max-width: calc(var(--MAX_WINDOW_WIDTH)*0.5);
-  width: 100%;
+  width: 600px;
 }
 
 .swiper-slide > img {

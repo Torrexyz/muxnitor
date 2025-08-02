@@ -91,8 +91,13 @@ async function requestModal(url, config = {}) {
 
           } catch {}
         } else if(MODALS_SRC_CACHE.scripts[url] !== false) {
-          loadScriptNodes.push(MODALS_SRC_CACHE.scripts[url]);
+
+          let localScriptNode = document.createElement("script");
+          localScriptNode.innerHTML = MODALS_SRC_CACHE.scripts[url].textContent;
+          MODALS_SRC_CACHE.scripts[url] = localScriptNode;
+          loadScriptNodes.push(localScriptNode);
           console.log(`(${url})\n  >> SCRIPT_LOAD_REMEMBERED`);
+          
         }
 
         let loadStyleNode = false;

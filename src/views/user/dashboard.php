@@ -107,7 +107,7 @@ $DB_DATA->checkLabor = dbcursor("SELECT `user` FROM `catalog` WHERE `user` = '{$
                 <h1 style="color:#37BC7D">Estado Activo</h1>
                 <br>
                 <p>
-                  Actualmente ere un monitor activo, revisa la información correspondiente
+                  Actualmente eres un monitor activo, revisa la información correspondiente
                   <br>
                   en las opciones disponibles para ti
                 </p>

@@ -4,6 +4,8 @@ content/*
 !content/data/.gitkeep
 !content/docs/.gitkeep
 
+src/views/test.php
+
 vendor/*
 !vendor/.gitkeep
 

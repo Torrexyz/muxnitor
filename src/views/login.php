@@ -53,7 +53,7 @@ if(isset($_POST['admin-login'])) {
 
       <header>
         <img src="/resources/favicon.png">
-        <h1>Sistema de gestión para<br>monitores académicos</h1>
+        <h1>Sistema de información para<br>monitores académicos</h1>
       </header>
 
       <form action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">

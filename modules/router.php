@@ -1,25 +1,24 @@
 <?php
 
 const ROUTER__defaultRoute = '/login';
-#const ROUTER__error400Path = '/error404.php';
+const ROUTER__error400Route = null;
 
-$REQUEST__route = rtrim(str_replace($_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI']), '?');
-$REQUEST__filename = __VIEWS_ROOT__.str_replace('-', '_', "{$REQUEST__route}.php");
+define('__DOCUMENT_FILE__', __VIEWS_ROOT__.str_replace('-', '_', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH).'.php'));
 
 ?>
 <?php
-if($REQUEST__route === '/' && defined('ROUTER__defaultRoute')) {
+if($_SERVER['REQUEST_URI'] === '/' && ROUTER__defaultRoute) {
 
   header('Location: '.ROUTER__defaultRoute);
 
-} elseif(file_exists($REQUEST__filename)) {
+} elseif(file_exists(__DOCUMENT_FILE__)) {
   
-  include_once($REQUEST__filename);
+  include_once(__DOCUMENT_FILE__);
 
-} elseif(defined('ROUTER__error400Path') ? file_exists(__VIEWS_ROOT__.'/'.ROUTER__error400Path) : false) {
+} elseif(defined('ROUTER__error400Path') ? file_exists(__VIEWS_ROOT__.'/'.ROUTER__error400Route) : false) {
   
   http_response_code(404);
-  include_once(__VIEWS_ROOT__.'/'.ROUTER__error400Path);
+  include_once(__VIEWS_ROOT__.'/'.ROUTER__error400Route);
 
 } else {
 

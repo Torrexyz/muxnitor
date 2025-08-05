@@ -16,9 +16,6 @@ $GET__steps = $_GET['steps'] ?? null;
       La cookie de sesión es un identificador temporal que se genera al iniciar sesión en el portal estudiantil y
       dura solo unos minutos. Esta cookie se usara en lugar de las credenciales de inicio de su portal academico
       para acceder a los datos requeridos (horario e historial académico), y asi mantener su privacidad 😉
-      <br>
-      <br>
-      <mark>CARGA DE DATOS DISPONIBLE SOLO DESDE PC</mark>
     </p>
     
     <br><br>

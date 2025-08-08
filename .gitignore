@@ -12,3 +12,5 @@ vendor/*
 .env
 
 error.log
+
+client_secret_api_google_accounts.json

@@ -118,6 +118,9 @@
   font-size: 12px;
   padding: 5px;
 }
+.popup .assign > div:last-child select > option:checked {
+  background: #A4F4CF;
+}
 .popup .assign > div:last-child select > option[disabled] {
   background: #FFC9C9;
 }

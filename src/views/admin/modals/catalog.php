@@ -51,11 +51,12 @@ if(!is_null($_POST['insert'] ?? null)) {
     <table class="default">
       <tr>
         <th style="width:70px">Código</th>
+        <th style="width:100px" column-ref="alias_code">Código<br>Alias</th>
         <th style="width:200px" column-ref="subject">Materia</th>
         <th style="width:70px" column-ref="group">Grupo</th>
-        <th column-ref="schedule">Horario</th>
+        <th style="width:120px" column-ref="schedule">Horario</th>
         <th style="width:200px" column-ref="professor">Profesor</th>
-        <th style="width:200px">Monitor</th>
+        <th style="width:180px">Monitor</th>
       </tr>
       <?php
         foreach($CATALOG_CONTAINER as $catalog) {
@@ -71,6 +72,8 @@ if(!is_null($_POST['insert'] ?? null)) {
       ?>
         <tr>
           <td oncontextmenu="changeCellValue(this, 'contextmenu-text')" tabindex="0" rowid-value="<?= $catalog['id'] ?>" cell-value="<?= $catalog['code'] ?>"><?= $catalog['code'] ?></td>
+
+          <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="5"><?= $catalog['alias_code'] ?? 'SIN DEFINIR' ?></td>
 
           <td ondblclick="changeCellValue(this)" tabindex="0" data-maxlength="50"><?= $catalog['subject'] ?></td>
 

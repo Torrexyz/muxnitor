@@ -16,6 +16,7 @@ CREATE TABLE `user`(
 CREATE TABLE `catalog`(
   `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   `code` VARCHAR(5) NOT NULL,
+  `alias_code` VARCHAR(5) NOT NULL,
   `subject` VARCHAR(50) NOT NULL,
   `group` VARCHAR(3) NULL,
   `schedule` VARCHAR(13) NULL,

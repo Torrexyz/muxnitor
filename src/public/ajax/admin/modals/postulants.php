@@ -97,8 +97,8 @@ if($DB_DATA->rowCount() == 1) {
 
           $subject->weekday = intval(explode('@', $subject->schedule)[0]);
           $subject->time = explode('@', $subject->schedule)[1];
-          $subject->approved = $subject->user !== $GET__id ? in_array($subject->code, $user_approved_subjects) : true;
-
+          $subject->approved = $subject->user !== $GET__id ? in_array($subject->code, $user_approved_subjects) or in_array($subject->alias_code, $user_approved_subjects) : true;
+          
           $RENDER_HTML.= "
             <option onclick='setSubjectSchedule(this)' oncontextmenu='
               event.preventDefault();
